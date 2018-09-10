@@ -4,7 +4,7 @@ import { urlImg, urlImgEnd } from '../../config/config'
 
 export default class Market extends Component {
     static navigationOptions = {
-        title: 'Market'
+        // title: 'Market'
     };
     constructor(props) {
         super(props);

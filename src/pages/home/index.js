@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, Alert, Button, Image,ImageBackground,TextInput,ScrollView} from 'react-native';
+import { Platform, StyleSheet, Text, View, Alert, Button, Image, ImageBackground, TextInput, ScrollView, TouchableOpacity} from 'react-native';
 import { urlImg, urlImgEnd} from '../../config/config';
-import TabNavigator from 'react-native-tab-navigator';
 
 const instructions = Platform.select({
     ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -12,18 +11,20 @@ const instructions = Platform.select({
 
 export default class Home extends Component {
     static navigationOptions = {
-        title: 'Home',
-        headerStyle: {
-            backgroundColor: '#f4511e',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-            fontWeight: 'bold',
-        },
+        // title: 'Home',
+        // headerStyle: {
+        //     backgroundColor: '#f4511e',
+        // },
+        // headerTintColor: '#000',
+        // headerTitleStyle: {
+        //     fontWeight: 'bold',
+        //     color:'#000'
+        // },
     };
     constructor(props) {
         super(props);
         this.state = { text: 'Useless Placeholder',page:1,listData:[] };
+        this.toDetail = this.toDetail.bind(this)
     }
     _onPressButton() {
         Alert.alert('You tapped the button!')
@@ -56,8 +57,13 @@ export default class Home extends Component {
                 })
             })
     }
+    toDetail(id){
+        // Alert.alert(id)
+        console.log(id)
+        // let id=e.target.getAttribute('data-id')
+        this.props.navigation.navigate('Detail', { id: id})
+    }
     render() {
-        const arr=[1,2,3,4,5,6,7,8]
         return (
             <ScrollView style={styles.container}>
                 <View style={{height:334}}>
@@ -81,32 +87,37 @@ export default class Home extends Component {
                 <View style={styles.houseList}>
                     {
                         this.state.listData.map((value,index,arr)=>(
-                            <View style={styles.houselist_item} key={value.project_id}>
-                                <View style={{ height: 200 }}><Image style={{ width: '100%', height: 200 }} source={{ uri: urlImg + value.photo_json[0].path + urlImgEnd}}></Image></View>
-                                <View style={styles.down}>
-                                    <View style={styles.houseDetail}>
-                                        <Text style={styles.detailLetter}>{value.area}</Text>
-                                        <Text>.</Text>
-                                        <Text style={styles.detailLetter}>{value.project_name}</Text>
-                                    </View>
-                                    <View style={styles.houseDetailDown}>
-                                        <View style={styles.houseDetailRow}>
-                                            <Text style={styles.symbol}>＄</Text>
-                                            <Text style={styles.price}>{value.price}</Text>
-                                            <Text style={styles.symbol}>(约￥</Text>
-                                            <Text style={styles.price}>{value.usMoney}</Text>
-                                            <Text style={styles.symbol}>万)</Text>
+                            <TouchableOpacity
+                                // onPress={this.toDetail(value.project_id)}
+                                onPress={() => this.props.navigation.navigate('Detail', { id: value.project_id })}
+                                key={value.project_id}
+                                data-id={value.project_id}
+                            >
+                                <View style={styles.houselist_item} >
+                                    <View style={{ height: 200 }}><Image style={{ width: '100%', height: 200 }} source={{ uri: urlImg + value.photo_json[0].path + urlImgEnd}}></Image></View>
+                                    <View style={styles.down}>
+                                        <View style={styles.houseDetail}>
+                                            <Text style={styles.detailLetter}>{value.area} </Text>
+                                            <Text> . </Text>
+                                            <Text style={styles.detailLetter}> {value.project_name}</Text>
                                         </View>
-                                        <View style={styles.houseDetailRow}>
-                                            <Text style={styles.house_room}>{(value.bedrooms)}居</Text>
-                                            <Text style={styles.house_room}>{ value.sqft }㎡</Text>
+                                        <View style={styles.houseDetailDown}>
+                                            <View style={styles.houseDetailRow}>
+                                                <Text style={styles.symbol}>＄</Text>
+                                                <Text style={styles.price}>{value.price}</Text>
+                                                <Text style={styles.symbol}>(约￥</Text>
+                                                <Text style={styles.price}>{value.usMoney}</Text>
+                                                <Text style={styles.symbol}>万)</Text>
+                                            </View>
+                                            <View style={styles.houseDetailRow}>
+                                                <Text style={styles.house_room}>{(value.bedrooms)}居 </Text>
+                                                <Text style={styles.house_room}> | </Text>
+                                                <Text style={styles.house_room}> { value.sqft }㎡</Text>
+                                            </View>
                                         </View>
                                     </View>
                                 </View>
-                                <View></View>
-                                <View></View>
-                                <View></View>
-                            </View>
+                            </TouchableOpacity>
                         ))
                     }
                 </View>
@@ -144,10 +155,10 @@ export default class Home extends Component {
 const styles = StyleSheet.create({
     container: {
         width:'100%',
-        // flex: 1,
+        flex: 1,
         // justifyContent: 'flex-start',
         // alignItems: 'center',
-        backgroundColor: '#fff',
+        backgroundColor: '#f2f2f2',
     },
     welcome: {
         fontSize: 20,
@@ -191,8 +202,8 @@ const styles = StyleSheet.create({
         // alignItems: 'flex-end',
         paddingLeft: 20,
         paddingRight: 20,
-        marginTop: 40,
-        marginBottom:30
+        marginTop: 25,
+        marginBottom:20
     },
     houseList:{
         paddingLeft:20,
@@ -201,8 +212,8 @@ const styles = StyleSheet.create({
     houselist_item:{
         width:'100%',
         backgroundColor: '#fff',
-        marginBottom: 40,
-        marginTop: 20,
+        marginBottom: 20,
+        // marginTop: 20,
         shadowColor: '#E1E1E1',
         // shadowOffset: 20,
         // shadowOpacity: 'none',
@@ -210,7 +221,11 @@ const styles = StyleSheet.create({
 
     },
     down:{
-        marginTop:20
+        marginTop:20,
+        // paddingTop:10,
+        paddingBottom:20,
+        paddingLeft:15,
+        paddingRight:15,
     },
     houseDetail:{
         flexDirection: 'row',
