@@ -121,7 +121,7 @@ export default class Home extends Component {
                         ))
                     }
                 </View>
-                <View style={styles.containerButton}>
+                {/*<View style={styles.containerButton}>
                     <View style={styles.buttonContainer}>
                         <Button
                             onPress={this._onPressButton}
@@ -146,7 +146,7 @@ export default class Home extends Component {
                             color="#841584"
                         />
                     </View>
-                </View>
+                </View>*/}
             </ScrollView>
         );
     }

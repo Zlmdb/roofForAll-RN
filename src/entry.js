@@ -15,7 +15,7 @@ const TabNavigator=createBottomTabNavigator(
         Home: { 
             screen: Home ,
             navigationOptions: ({ navigation }) => ({
-                title: '首页导航条',
+                title: '首页',
                 // tabBarLabel: '首页',
                 tabBarIcon: ({ focused, tintColor }) => (
                     <TabBarItem
@@ -29,7 +29,7 @@ const TabNavigator=createBottomTabNavigator(
         Market: { 
             screen: Market,
             navigationOptions: ({ navigation }) => ({
-                title:'市场概况导航条',
+                title:'市场概况',
                 // tabBarLabel: '市场概况',
                 tabBarIcon: ({ focused, tintColor }) => (
                     <TabBarItem
